@@ -3,7 +3,7 @@
 Commands: analyze, quick, serve, compare, watch, health,
 security, deps, git-stats, languages, complexity, smells,
 architecture, code-age, export, snapshot, trends,
-diff-snapshots, team, ci-output, decay, dna.
+diff-snapshots, team, ci-output, decay, dna, lint.
 """
 
 import argparse
@@ -144,6 +144,23 @@ def main():
     p.add_argument('--compare', type=str, default=None, help='Compare with saved fingerprint')
     p.add_argument('--clones', action='store_true', help='Detect cloned files')
 
+    # lint — language-specific lint rules
+    p = sub.add_parser('lint', help='Language-specific lint rules (PEP 8, Airbnb, gofmt, clippy, Google)')
+    p.add_argument('path', nargs='?', default='.', help='Project directory or file')
+    p.add_argument('--language', '-l', action='append', default=None,
+                   choices=['python', 'javascript', 'typescript', 'go', 'rust', 'java'],
+                   help='Filter by language (can specify multiple)')
+    p.add_argument('--severity', '-s', action='append', default=None,
+                   choices=['error', 'warning', 'info'],
+                   help='Filter by severity')
+    p.add_argument('--max', type=int, default=500, help='Max violations to report (default: 500)')
+    p.add_argument('--include-rule', action='append', default=None,
+                   help='Only run specific rule IDs (e.g., PY001)')
+    p.add_argument('--exclude-rule', action='append', default=None,
+                   help='Exclude specific rule IDs')
+    p.add_argument('--json', action='store_true', help='Output JSON')
+    p.add_argument('--rules', action='store_true', help='List all available rules')
+
     # ci-output — CI/CD output (SARIF, Checkstyle, JUnit, etc.)
     p = sub.add_parser('ci-output', help='CI/CD output (SARIF, Checkstyle, JUnit, etc.)')
     p.add_argument('path', nargs='?', default='.', help='Project directory')
@@ -182,6 +199,7 @@ def main():
         'team': cmd_team,
         'decay': cmd_decay,
         'dna': cmd_dna,
+        'lint': cmd_lint,
         'ci-output': cmd_ci_output,
     }
 
@@ -789,6 +807,43 @@ def cmd_team(args):
 
     print(format_team_terminal(team_data))
     print(f"  ⏱️  Completed in {elapsed:.2f}s")
+
+
+def cmd_lint(args):
+    from .lint_rules import lint_project, lint_file, format_violations_terminal, format_violations_json, list_all_rules
+
+    if args.rules:
+        print(list_all_rules())
+        return
+
+    path = os.path.abspath(args.path)
+    is_file = os.path.isfile(path)
+
+    if is_file:
+        violations = lint_file(path, args.language)
+    else:
+        if not os.path.isdir(path):
+            print(f"❌ Path not found: {path}")
+            sys.exit(1)
+        print(f"🔍 Linting {path}...")
+        violations = lint_project(
+            path,
+            languages=args.language,
+            severity_filter=args.severity,
+            max_violations=args.max,
+            include_rule_ids=args.include_rule,
+            exclude_rule_ids=args.exclude_rule,
+        )
+
+    if args.json:
+        print(format_violations_json(violations))
+    else:
+        print(format_violations_terminal(violations))
+
+    # Exit code based on severity
+    errors = sum(1 for v in violations if v.severity == "error")
+    if errors:
+        sys.exit(2)
 
 
 def cmd_ci_output(args):

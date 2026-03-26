@@ -67,6 +67,7 @@ Zero external dependencies — pure Python stdlib.
 | `codevista ci-output ./project/ -f sarif` | CI/CD output (SARIF, Checkstyle, etc.) |
 | `codevista decay ./project/` | Architectural decay analysis |
 | `codevista dna ./project/` | Generate CodeDNA fingerprint |
+| `codevista lint ./project/` | Language-specific lint rules |
 
 ## 📊 What It Analyzes
 
@@ -360,6 +361,112 @@ codevista dna ./my-project/ --clones
   a3f7c2b1e9d045867f2a9c3d1e8b4f6a...
 ```
 
+## 📏 Lint Rules
+
+CodeVista includes **38 language-specific lint rules** across 5 languages, enforcing popular style guides:
+
+```bash
+# Lint entire project
+codevista lint ./my-project/
+
+# Lint specific file
+codevista lint ./src/app.py
+
+# Filter by language
+codevista lint ./project/ -l python -l javascript
+
+# Filter by severity
+codevista lint ./project/ -s error -s warning
+
+# Include/exclude specific rules
+codevista lint ./project/ --include-rule PY001 --exclude-rule PY010
+
+# JSON output for CI
+codevista lint ./project/ --json
+
+# List all available rules
+codevista lint --rules
+```
+
+### Supported Languages & Rules
+
+| Language | Style Guide | Rules | Severity |
+|----------|------------|-------|----------|
+| **Python** | PEP 8 / Black | PY001–PY011 (11 rules) | error/warning/info |
+| **JavaScript** | Airbnb | JS001–JS009 (9 rules) | error/warning/info |
+| **TypeScript** | Airbnb (shared) | JS001–JS009 (9 rules) | error/warning/info |
+| **Go** | gofmt | GO001–GO005 (5 rules) | error/warning |
+| **Rust** | clippy-lite | RS001–RS005 (5 rules) | error/warning/info |
+| **Java** | Google Style | JA001–JA006 (6 rules) | error/warning/info |
+
+### Python (PEP 8 / Black)
+
+| Rule | Severity | Description |
+|------|----------|-------------|
+| PY001 | warning | Max line length (88 for Black) |
+| PY002 | error | No wildcard imports (`from x import *`) |
+| PY003 | info | Import order: stdlib → third-party → local, alphabetized |
+| PY004 | info | Two blank lines before top-level definitions |
+| PY005 | info | One blank line before methods |
+| PY006 | info | Spaces around operators |
+| PY007 | info | Prefer f-strings over `.format()` / %-formatting |
+| PY008 | info | Type hints on public functions |
+| PY009 | warning | Naming conventions (snake_case, PascalCase, UPPER_CASE) |
+| PY010 | info | No trailing whitespace |
+| PY011 | warning | No multiple statements on one line |
+
+### JavaScript/TypeScript (Airbnb)
+
+| Rule | Severity | Description |
+|------|----------|-------------|
+| JS001 | error | No `var` — use `const` or `let` |
+| JS002 | info | Prefer template literals over string concatenation |
+| JS003 | info | Use arrow functions for callbacks |
+| JS004 | warning | Use `===` instead of `==` |
+| JS005 | warning | 2-space indentation (no tabs) |
+| JS006 | warning | No unused variables |
+| JS007 | info | Prefer destructuring for repeated property access |
+| JS008 | info | Use object shorthand syntax |
+| JS009 | info | Trailing comma conventions |
+
+### Go (gofmt)
+
+| Rule | Severity | Description |
+|------|----------|-------------|
+| GO001 | error | Tab indentation required |
+| GO002 | error | No unused imports |
+| GO003 | warning | Exported names must have doc comment |
+| GO004 | error | Error handling — do not discard errors |
+| GO005 | warning | No variable shadowing in inner scopes |
+
+### Rust (clippy-lite)
+
+| Rule | Severity | Description |
+|------|----------|-------------|
+| RS001 | error | No `.unwrap()` in production code |
+| RS002 | warning | Use Option/Result properly (no `is_some().unwrap()`) |
+| RS003 | error | No mutable statics |
+| RS004 | info | Lint suppressions should be avoided |
+| RS005 | error | Naming conventions (snake_case functions/vars) |
+
+### Java (Google Style)
+
+| Rule | Severity | Description |
+|------|----------|-------------|
+| JA001 | error | 4-space indentation (no tabs) |
+| JA002 | warning | Javadoc on public methods |
+| JA003 | error | No wildcard imports |
+| JA004 | error | Braces required for control statements |
+| JA005 | warning | Catch specific exceptions |
+| JA006 | info | Use logger instead of `System.out.print` |
+
+### Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| `0` | Clean — no violations |
+| `2` | Errors found |
+
 ## 📤 Export Formats
 
 Export analysis results in multiple formats for different use cases:
@@ -508,6 +615,7 @@ codevista/
 ├── integrations.py   # CI/CD output (SARIF, Checkstyle, JUnit, GitLab)
 ├── decay.py          # Architectural decay detector
 ├── codedna.py        # CodeDNA fingerprinter
+├── lint_rules.py     # Language-specific lint rules (PEP 8, Airbnb, gofmt, clippy, Google)
 ├── languages.py      # Language definitions & colors
 ├── config.py         # Configuration & ignore patterns
 ├── utils.py          # Utilities & color schemes
