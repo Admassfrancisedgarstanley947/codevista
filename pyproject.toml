@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codevista"
+version = "0.1.0"
+description = "Google Analytics for your code — beautiful interactive codebase visualizations"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.7"
+dependencies = []
+
+[project.scripts]
+codevista = "codevista.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["codevista*"]
