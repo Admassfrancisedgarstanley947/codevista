@@ -60,6 +60,11 @@ Zero external dependencies — pure Python stdlib.
 | `codevista git-stats ./project/` | Git repository statistics |
 | `codevista languages ./project/` | Language distribution breakdown |
 | `codevista complexity ./project/` | Complexity analysis and top functions |
+| `codevista snapshot ./project/` | Save analysis snapshot for trend tracking |
+| `codevista trends ./project/` | Show project health trends over time |
+| `codevista diff-snapshots ./project/ 1 2` | Compare two snapshots |
+| `codevista team ./project/` | Team productivity & collaboration analysis |
+| `codevista ci-output ./project/ -f sarif` | CI/CD output (SARIF, Checkstyle, etc.) |
 
 ## 📊 What It Analyzes
 
@@ -169,6 +174,81 @@ Track file age, change frequency, and identify files most likely to have bugs:
 codevista code-age ./my-project/
 ```
 
+## 📈 Trend Analysis
+
+Track code quality over time with snapshots and trend visualization.
+
+### How It Works
+
+1. **Save snapshots** after each analysis run
+2. **Compare snapshots** to see how your codebase evolves
+3. **Get alerted** when metrics cross critical thresholds
+4. **Track technical debt** ratio over time
+
+```bash
+# Save a snapshot of the current state
+codevista snapshot ./my-project/
+
+# Save with a label
+codevista snapshot ./my-project/ --label "before-refactor"
+
+# View trends
+codevista trends ./my-project/
+
+# Compare two specific snapshots
+codevista diff-snapshots ./my-project/ 1 2
+```
+
+### ASCII Timeline Example
+
+```
+  📈 Health Score Timeline
+  100 ┤████████████████████
+      │████████████████████
+      │████████████████████
+      │████████████████████
+      │████████████████████
+      │████████████████████
+      │████████████████████
+      │████████████████████
+      │████████████████████
+      │████████████████████
+      │████████████████████
+      │████████████████████
+    0 ┤─────────────────────
+  Current: 78/100 ↑
+```
+
+### Features
+
+- **Trend arrows**: ↑ improving, ↓ degrading, → stable
+- **Threshold alerts**: Get warned when health drops or security issues spike
+- **Technical debt tracking**: Monitor debt ratio over time
+- **Review cadence**: Suggests optimal review frequency based on change rate
+- **Code age distribution**: Track how your codebase ages
+
+## 👥 Team Metrics
+
+Analyze developer productivity and collaboration patterns.
+
+```bash
+codevista team ./my-project/
+```
+
+### What It Analyzes
+
+| Metric | Description |
+|--------|-------------|
+| **Lines per Author** | Added/removed/net per developer |
+| **Commit Frequency** | Commits per day, burst vs steady patterns |
+| **Files Touched** | Unique files per author |
+| **Bus Factor** | People needed to understand 50% of code |
+| **Code Ownership** | Pie chart data showing contribution share |
+| **Review Coverage** | Estimate from commit messages |
+| **Pair Programming** | Co-authored commit detection |
+| **Time Zone Distribution** | When the team commits |
+| **Onboarding Complexity** | How hard for a new contributor to ramp up |
+
 ## 📤 Export Formats
 
 Export analysis results in multiple formats for different use cases:
@@ -190,6 +270,55 @@ codevista export ./project/ -f sarif -o results.sarif.json
 
 # Export everything
 codevista export ./project/ -o ./reports/codevista --all
+```
+
+## 🔌 CI/CD Integration
+
+CodeVista provides dedicated CI output formats with threshold-based pass/fail.
+
+### Supported Formats
+
+| Format | Platform | Command |
+|--------|----------|---------|
+| **SARIF** | GitHub Code Scanning | `codevista ci-output . -f sarif` |
+| **GitLab Code Quality** | GitLab | `codevista ci-output . -f gitlab` |
+| **Checkstyle XML** | Jenkins, GitHub Actions | `codevista ci-output . -f checkstyle` |
+| **JUnit XML** | Any CI with JUnit support | `codevista ci-output . -f junit` |
+| **Markdown** | PR comments | `codevista ci-output . -f markdown` |
+| **Terminal** | Quick terminal output | `codevista ci-output . -f terminal` |
+
+### Exit Codes
+
+| Code | Meaning | Description |
+|------|---------|-------------|
+| `0` | Clean | All thresholds passed |
+| `1` | Warnings | Medium-severity threshold violations |
+| `2` | Errors | High-severity violations (health, complexity) |
+| `3` | Critical | Critical security issues or severe degradation |
+
+### Threshold Configuration
+
+Create `.codevista.json` in your project root:
+
+```json
+{
+  "max_security_critical": 0,
+  "max_security_high": 0,
+  "max_security_medium": 5,
+  "max_security_total": 10,
+  "max_avg_complexity": 10,
+  "max_technical_debt_ratio": 0.25,
+  "min_health_score": 60,
+  "max_duplicates": 10,
+  "max_circular_deps": 0,
+  "max_todo_count": 50
+}
+```
+
+```bash
+# Run with exit codes (CI will fail if thresholds violated)
+codevista ci-output ./project/ -f sarif -o results.sarif.json
+echo "Exit code: $?"  # 0=clean, 1=warnings, 2=errors, 3=critical
 ```
 
 ## 🐳 Docker
@@ -263,6 +392,9 @@ codevista/
 ├── security.py       # Secret/vulnerability scanning
 ├── dependencies.py   # Dependency parsing & analysis
 ├── git_analysis.py   # Git stats extraction
+├── trends.py         # Trend analysis & snapshot tracking
+├── team.py           # Team metrics & collaboration analysis
+├── integrations.py   # CI/CD output (SARIF, Checkstyle, JUnit, GitLab)
 ├── languages.py      # Language definitions & colors
 ├── config.py         # Configuration & ignore patterns
 ├── utils.py          # Utilities & color schemes

@@ -1,7 +1,9 @@
 """CodeVista CLI — comprehensive command-line interface.
 
 Commands: analyze, quick, serve, compare, watch, health,
-security, deps, git-stats, languages, complexity.
+security, deps, git-stats, languages, complexity, smells,
+architecture, code-age, export, snapshot, trends,
+diff-snapshots, team, ci-output.
 """
 
 import argparse
@@ -106,6 +108,39 @@ def main():
     p.add_argument('-o', '--output', default='codevista-report', help='Output file path (no extension)')
     p.add_argument('--all', action='store_true', help='Export to all formats')
 
+    # snapshot — save analysis snapshot
+    p = sub.add_parser('snapshot', help='Save analysis snapshot for trend tracking')
+    p.add_argument('path', nargs='?', default='.', help='Project directory')
+    p.add_argument('--label', default=None, help='Label for this snapshot')
+    p.add_argument('--list', action='store_true', help='List existing snapshots')
+    p.add_argument('--delete', type=int, default=None, metavar='INDEX',
+                   help='Delete snapshot by index (from --list)')
+    p.add_argument('--delete-all', action='store_true', help='Delete all snapshots for this project')
+
+    # trends — show project health trends
+    p = sub.add_parser('trends', help='Show project health trends over time')
+    p.add_argument('path', nargs='?', default='.', help='Project directory')
+
+    # diff-snapshots — compare two snapshots
+    p = sub.add_parser('diff-snapshots', help='Compare two analysis snapshots')
+    p.add_argument('path', nargs='?', default='.', help='Project directory')
+    p.add_argument('index_a', nargs='?', type=int, default=2, help='Snapshot index A (default: 2nd newest)')
+    p.add_argument('index_b', nargs='?', type=int, default=1, help='Snapshot index B (default: newest)')
+
+    # team — team metrics
+    p = sub.add_parser('team', help='Team productivity and collaboration analysis')
+    p.add_argument('path', nargs='?', default='.', help='Project directory')
+
+    # ci-output — CI/CD output formats
+    p = sub.add_parser('ci-output', help='CI/CD output (SARIF, Checkstyle, JUnit, etc.)')
+    p.add_argument('path', nargs='?', default='.', help='Project directory')
+    p.add_argument('-f', '--format', default='sarif',
+                   choices=['sarif', 'gitlab', 'checkstyle', 'junit', 'markdown', 'terminal'],
+                   help='Output format')
+    p.add_argument('-o', '--output', default=None, help='Output file path')
+    p.add_argument('--thresholds', default=None, help='Path to threshold config file')
+    p.add_argument('--show-thresholds', action='store_true', help='Show available threshold options')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -128,6 +163,11 @@ def main():
         'architecture': cmd_architecture,
         'code-age': cmd_code_age,
         'export': cmd_export,
+        'snapshot': cmd_snapshot,
+        'trends': cmd_trends,
+        'diff-snapshots': cmd_diff_snapshots,
+        'team': cmd_team,
+        'ci-output': cmd_ci_output,
     }
 
     handler = command_map.get(args.command)
@@ -601,6 +641,164 @@ def cmd_export(args):
         elapsed = time.time() - start
         print(f"\n✅ Exported {args.format} report: {filepath}")
         print(f"  ⏱️  Completed in {elapsed:.2f}s")
+
+
+# ── New Cycle 2 Commands ──────────────────────────────────────────────────
+
+def cmd_snapshot(args):
+    from .analyzer import analyze_project
+    from .trends import (save_snapshot, list_snapshots, delete_snapshot,
+                         delete_all_snapshots)
+
+    path = _resolve_path(args.path)
+
+    # List snapshots
+    if args.list:
+        snapshots = list_snapshots(path)
+        if not snapshots:
+            print("📭 No snapshots found for this project.")
+            print("   Run `codevista snapshot ./project` to create one.")
+            return
+        print(f"\n📋 Snapshots for {os.path.basename(path)}")
+        print(f"{'─'*65}")
+        for i, snap in enumerate(snapshots, 1):
+            score = snap['overall_score']
+            label = f" ({snap['label']})" if snap['label'] else ""
+            print(f"  {i:>2d}. [{score:>3d}/100] {snap['timestamp'][:19]}{label}")
+        print(f"{'─'*65}")
+        print(f"  {len(snapshots)} snapshot(s)")
+        return
+
+    # Delete a snapshot
+    if args.delete is not None:
+        if delete_snapshot(path, args.delete):
+            print(f"🗑️  Snapshot {args.delete} deleted.")
+        else:
+            print(f"❌ Could not delete snapshot {args.delete}. Use --list to see valid indices.")
+        return
+
+    # Delete all snapshots
+    if args.delete_all:
+        count = delete_all_snapshots(path)
+        print(f"🗑️  Deleted {count} snapshot(s).")
+        return
+
+    # Save a new snapshot
+    print(f"📸 Analyzing {path} and saving snapshot...")
+    start = time.time()
+    analysis = analyze_project(path, include_git=True)
+    filepath = save_snapshot(analysis, path, label=args.label)
+    elapsed = time.time() - start
+
+    from .metrics import calculate_health
+    scores = calculate_health(analysis)
+
+    print(f"\n✅ Snapshot saved: {filepath}")
+    print(f"   🏥 Health: {scores['overall']}/100")
+    if args.label:
+        print(f"   🏷️  Label: {args.label}")
+    print(f"   ⏱️  Completed in {elapsed:.2f}s")
+    print(f"\n   Run `codevista trends {path}` to view trends.")
+
+
+def cmd_trends(args):
+    from .analyzer import analyze_project
+    from .trends import (load_snapshots, format_trends_terminal, save_snapshot,
+                         format_code_age_dist_terminal)
+
+    path = _resolve_path(args.path)
+
+    # If no snapshots exist, save one first
+    snapshots = load_snapshots(path)
+    if not snapshots:
+        print(f"📭 No snapshots found. Saving one now...")
+        analysis = analyze_project(path, include_git=True)
+        save_snapshot(analysis, path)
+        snapshots = load_snapshots(path)
+
+    print(format_trends_terminal(snapshots))
+
+    if len(snapshots) >= 2:
+        print(format_code_age_dist_terminal(snapshots))
+
+
+def cmd_diff_snapshots(args):
+    from .trends import (load_snapshots, compare_snapshots,
+                         format_comparison_terminal, list_snapshots)
+
+    path = _resolve_path(args.path)
+    snapshots = load_snapshots(path)
+
+    if len(snapshots) < 2:
+        print("❌ Need at least 2 snapshots to compare.")
+        print("   Run `codevista snapshot ./project` multiple times first.")
+        sys.exit(1)
+
+    idx_a = min(args.index_a, len(snapshots))
+    idx_b = min(args.index_b, len(snapshots))
+
+    # Load full snapshot data
+    _ensure_and_load = []
+    import json
+    for snap in list_snapshots(path):
+        try:
+            with open(snap['file'], 'r') as f:
+                _ensure_and_load.append(json.load(f))
+        except (OSError, json.JSONDecodeError):
+            pass
+
+    if idx_a > len(_ensure_and_load) or idx_b > len(_ensure_and_load):
+        print(f"❌ Invalid snapshot indices. Max: {len(_ensure_and_load)}")
+        sys.exit(1)
+
+    # Indices are 1-based from list_snapshots but list is newest-first
+    snap_a = _ensure_and_load[idx_a - 1]
+    snap_b = _ensure_and_load[idx_b - 1]
+
+    comparison = compare_snapshots(snap_a, snap_b)
+    print(format_comparison_terminal(comparison))
+
+
+def cmd_team(args):
+    from .team import analyze_team, format_team_terminal
+
+    path = _resolve_path(args.path)
+    if not os.path.isdir(os.path.join(path, '.git')):
+        print("❌ Not a git repository. Team analysis requires git history.")
+        sys.exit(1)
+
+    print(f"👥 Analyzing team metrics for {path}...")
+    start = time.time()
+    team_data = analyze_team(path)
+    elapsed = time.time() - start
+
+    print(format_team_terminal(team_data))
+    print(f"  ⏱️  Completed in {elapsed:.2f}s")
+
+
+def cmd_ci_output(args):
+    from .analyzer import analyze_project
+    from .integrations import output_ci, print_threshold_help
+
+    if args.show_thresholds:
+        print_threshold_help()
+        return
+
+    path = _resolve_path(args.path)
+    print(f"📤 Generating {args.format} CI output for {path}...")
+    start = time.time()
+
+    analysis = analyze_project(path, include_git=False, quick_mode=True)
+    content, exit_code = output_ci(
+        analysis, fmt=args.format,
+        output_path=args.output,
+        config_path=args.thresholds,
+    )
+
+    elapsed = time.time() - start
+    print(f"  ⏱️  Completed in {elapsed:.2f}s")
+
+    sys.exit(exit_code)
 
 
 # ── Helpers ────────────────────────────────────────────────────────────────
