@@ -9,6 +9,9 @@
   <a href="https://github.com/rudra496/codevista/actions"><img src="https://img.shields.io/badge/Tests-117%20passing-brightgreen" alt="Tests"></a>
   <a href="#"><img src="https://img.shields.io/badge/Coverage-coming%20soon-yellow" alt="Coverage"></a>
   <a href="#"><img src="https://img.shields.io/badge/Languages-80%2B-blue" alt="Languages"></a>
+  <a href="https://github.com/rudra496/codevista/stargazers"><img src="https://img.shields.io/github/stars/rudra496/codevista?style=social" alt="Stars"></a>
+  <a href="https://github.com/rudra496/codevista/network/members"><img src="https://img.shields.io/github/forks/rudra496/codevista?style=social" alt="Forks"></a>
+  <a href="https://github.com/rudra496/codevista/issues"><img src="https://img.shields.io/github/issues/rudra496/codevista" alt="Issues"></a>
 </p>
 
 <p align="center">
@@ -33,6 +36,8 @@
 ## ✨ What is CodeVista?
 
 CodeVista analyzes your codebase and generates a **stunning single-page HTML report** — no server, no internet, no external dependencies. Just share one file and everyone can explore your code visually.
+
+![CodeVista Demo](https://img.shields.io/badge/🎬_Demo_Screenshot-Coming_Soon-8b5cf6?style=for-the-badge)
 
 ## 🚀 Quick Start
 
@@ -651,6 +656,16 @@ codevista/
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
 4. Push to the branch (`git push origin feature/amazing`)
 5. Open a Pull Request
+
+## ⭐ Star History
+
+<a href="https://star-history.com/#rudra496/codevista&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rudra496/codevista&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=rudra496/codevista&type=Date" />
+   <img alt="Star History" src="https://api.star-history.com/svg?repos=rudra496/codevista&type=Date" />
+ </picture>
+</a>
 
 ## 📄 License
 
