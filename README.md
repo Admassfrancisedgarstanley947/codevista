@@ -1,5 +1,5 @@
 <!-- CodeVista — Code Analysis & Security Scanner | Static Analysis Tool -->
-<!-- Meta: CodeVista is a free, zero-dependency code analysis and security scanner that generates stunning single-page HTML reports. Supports 80+ languages, 38 lint rules, DNA fingerprinting, architectural decay detection, code smells, and more. -->
+<!-- Meta: CodeVista is a free, zero-dependency code analysis and security scanner that generates stunning single-page HTML reports. Supports 75+ languages, 38 lint rules, DNA fingerprinting, architectural decay detection, code smells, and more. -->
 <!-- Keywords: code analysis, static analysis, security scanner, code quality, code metrics, code smells, architecture detection, health score, technical debt, SARIF, CI/CD, lint rules, code fingerprinting -->
 
 <p align="center">
@@ -26,7 +26,7 @@
 </p>
 
 <h3 align="center"><strong>CodeVista — Code Analysis & Security Scanner</strong></h3>
-<h4 align="center">Google Analytics for your code — the ultimate static analysis tool</h4>
+<h4 align="center">Deep analytics for your code — a powerful static analysis tool</h4>
 <p align="center">
   Beautiful interactive codebase visualizations — single HTML, zero dependencies.
 </p>
@@ -674,7 +674,7 @@ MIT © 2026 — see [LICENSE](LICENSE)
 ## 💡 Why CodeVista?
 
 - **Zero dependencies** — Pure Python, no Node.js, no databases, no external tools
-- **80+ languages** — Works with virtually any codebase out of the box
+- **75+ languages** — Works with virtually any codebase out of the box
 - **Stunning HTML reports** — Beautiful, interactive reports you'll actually want to read
 - **Security-first** — 30+ secret detection patterns including Stripe, AWS, GitHub tokens
 - **Unique features** — CodeDNA fingerprinting and architectural decay detection (no other tool has this)
